@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Gesture Customization</string>
+    <string name="add_gesture">Add a gesture</string>
+    <string name="gesture_name">Gesture name</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <color name="black">#000000</color>
+    <color name="semi_black">#99000000</color>
+
+</resources>

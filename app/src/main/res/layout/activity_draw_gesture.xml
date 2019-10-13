@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:inputType="text"
+                android:text="name">
+
+            </EditText>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/book_sample"
+                />
+
+    </LinearLayout>
+<!--    <FrameLayout-->
+<!--        android:orientation="vertical"-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="fill_parent"-->
+<!--        android:layout_weight="1"-->
+<!--        >-->
+<!--        <FrameLayout-->
+<!--            android:layout_width="fill_parent"-->
+<!--            android:layout_height="fill_parent">-->
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:src="@drawable/book_sample"-->
+<!--            >-->
+<!--        </ImageView>-->
+<!--        </FrameLayout>-->
+
+<!--        <FrameLayout-->
+<!--            android:layout_width="fill_parent"-->
+<!--            android:layout_height="fill_parent">-->
+
+<!--            <com.example.gesturerecord.FingerLine-->
+<!--                android:id="@+id/finger_line"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:background="@color/semi_black"-->
+<!--                android:onClick="addGesture" />-->
+
+<!--        </FrameLayout>-->
+<!--    </FrameLayout>-->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_weight="0"
+        android:background="@color/semi_black">
+
+        <Button
+            android:id="@+id/draw_gesture_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="addGesture"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/draw_gesture_clear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="deleteGesture"
+            android:textColor="#ff0000"
+            android:text="Delete" />
+
+    </LinearLayout>
+
+</LinearLayout>

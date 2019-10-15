@@ -20,43 +20,20 @@
 
             </EditText>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/book_sample"
                 />
+        </LinearLayout>
 
     </LinearLayout>
-<!--    <FrameLayout-->
-<!--        android:orientation="vertical"-->
-<!--        android:layout_width="fill_parent"-->
-<!--        android:layout_height="fill_parent"-->
-<!--        android:layout_weight="1"-->
-<!--        >-->
-<!--        <FrameLayout-->
-<!--            android:layout_width="fill_parent"-->
-<!--            android:layout_height="fill_parent">-->
-<!--        <ImageView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:src="@drawable/book_sample"-->
-<!--            >-->
-<!--        </ImageView>-->
-<!--        </FrameLayout>-->
 
-<!--        <FrameLayout-->
-<!--            android:layout_width="fill_parent"-->
-<!--            android:layout_height="fill_parent">-->
-
-<!--            <com.example.gesturerecord.FingerLine-->
-<!--                android:id="@+id/finger_line"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:background="@color/semi_black"-->
-<!--                android:onClick="addGesture" />-->
-
-<!--        </FrameLayout>-->
-<!--    </FrameLayout>-->
 
 
     <LinearLayout
@@ -65,14 +42,29 @@
         android:layout_gravity="bottom"
         android:layout_weight="0"
         android:background="@color/semi_black">
-
         <Button
-            android:id="@+id/draw_gesture_save"
+            android:id="@+id/view_gesture"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="addGesture"
-            android:text="Save" />
+            android:onClick="viewGesture"
+            android:text="View" />
+
+        <Button
+            android:id="@+id/edit_gesture"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="editGesture"
+            android:text="Edit" />
+
+        <Button
+        android:id="@+id/draw_gesture_save"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="saveGesture"
+        android:text="Save" />
 
         <Button
             android:id="@+id/draw_gesture_clear"

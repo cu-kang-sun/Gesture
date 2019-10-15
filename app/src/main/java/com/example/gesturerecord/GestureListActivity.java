@@ -4,14 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.gesturerecord.R;
 
 public class GestureListActivity extends AppCompatActivity{
 
@@ -21,7 +18,7 @@ public class GestureListActivity extends AppCompatActivity{
         setContentView(R.layout.activity_gesture_list);
 
         ListView listView = (ListView) findViewById(R.id.list);
-        String[] values = new String[] { "Next Page", "Previous Page","Center"
+        final String[] values = new String[] { "Next Page", "Previous Page","Center"
 //                ,"Next Page", "Previous Page","Center","Next Page", "Previous Page","Center","Next Page", "Previous Page","Center","Next Page", "Previous Page","Center","Next Page", "Previous Page","Center"
         };
 
@@ -35,12 +32,23 @@ public class GestureListActivity extends AppCompatActivity{
 
         // Assign adapter to ListView
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                Intent intent = new Intent(GestureListActivity.this, GestureSetting.class);
+                String message = values[position];
+                intent.putExtra("gesture_name", message);
+                startActivity(intent);
+            }
+        });
     }
 
 
     public void drawGesture(View view) {
         // Do something in response to button
-        Intent intent = new Intent(this, DrawGestureActivity.class);
+        Intent intent = new Intent(this, AddGestureActivity.class);
         startActivity(intent);
     }
 

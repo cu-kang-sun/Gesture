@@ -18,14 +18,9 @@ public class GestureListActivity extends AppCompatActivity{
         setContentView(R.layout.activity_gesture_list);
 
         ListView listView = (ListView) findViewById(R.id.list);
-        final String[] values = new String[] { "Next Page", "Previous Page","Center"
-//                ,"Next Page", "Previous Page","Center","Next Page", "Previous Page","Center","Next Page", "Previous Page","Center","Next Page", "Previous Page","Center","Next Page", "Previous Page","Center"
-        };
+        final String[] values = new String[] { "Next Page", "Previous Page","Center"};
 
-        // First paramenter - Context
-        // Second parameter - Layout for the row
-        // Third parameter - ID of the TextView to which the data is written
-        // Forth - the Array of data
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1, values);
@@ -38,8 +33,8 @@ public class GestureListActivity extends AppCompatActivity{
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 Intent intent = new Intent(GestureListActivity.this, GestureSetting.class);
-                String message = values[position];
-                intent.putExtra("gesture_name", message);
+//                String message = values[position];
+//                intent.putExtra("gesture_name", message);
                 startActivity(intent);
             }
         });

@@ -25,9 +25,9 @@ public class GestureSetting extends AppCompatActivity {
         viewGestureDialog.setContentView(getLayoutInflater().inflate(R.layout.gesture_display
                 , null));
 
-        Bundle bundle = getIntent().getExtras();
-        Bitmap bm = (Bitmap) bundle.get("gesture_pic");
-        String pointlist = (String) bundle.get("gesture_points");
+//        Bundle bundle = getIntent().getExtras();
+//        Bitmap bm = (Bitmap) bundle.get("gesture_pic");
+//        String pointlist = (String) bundle.get("gesture_points");
 
 
     }

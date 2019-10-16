@@ -71,9 +71,9 @@ public class AddGestureActivity extends AppCompatActivity {
         //pass the points back
 
         Intent intent = new Intent(this, GestureSetting.class);
-        intent.putExtra("gesture_points", convertPointlistToStr(points));
-        intent.putExtra("gesture_pic", bm);
-        intent.putExtra("source","AddGesture");
+//        intent.putExtra("gesture_points", convertPointlistToStr(points));
+//        intent.putExtra("gesture_pic", bm);
+//        intent.putExtra("source","AddGesture");
         startActivity(intent);
     }
 

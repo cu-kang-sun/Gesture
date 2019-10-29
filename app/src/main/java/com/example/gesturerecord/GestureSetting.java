@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 
 public class GestureSetting extends AppCompatActivity {
     private Dialog viewGestureDialog;
@@ -22,8 +23,14 @@ public class GestureSetting extends AppCompatActivity {
 
         viewGestureDialog = new Dialog(this, DialogFragment.STYLE_NO_FRAME);
         viewGestureDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        viewGestureDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         viewGestureDialog.setContentView(getLayoutInflater().inflate(R.layout.gesture_display
                 , null));
+
+
+
+
 
 //        Bundle bundle = getIntent().getExtras();
 //        Bitmap bm = (Bitmap) bundle.get("gesture_pic");

@@ -4,10 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GestureListActivity extends AppCompatActivity{
@@ -18,26 +22,60 @@ public class GestureListActivity extends AppCompatActivity{
         setContentView(R.layout.activity_gesture_list);
 
         ListView listView = (ListView) findViewById(R.id.list);
-        final String[] values = new String[] { "Next Page", "Previous Page","Center"};
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?>adapter,View v, int position, long id){
+                Object item = adapter.getItemAtPosition(position);
+
+                Intent intent = new Intent(GestureListActivity.this, GestureSetting.class);
+                //based on item add info to intent
+                startActivity(intent);
+            }
+        });
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1, values);
+//        final String[] values = new String[] { "Next Page", "Previous Page","Center"};
+        List<String> values = new ArrayList<>();
+        values.add("Next Page");
+        values.add("Previous Page");
+        values.add("Center");
+
+
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+//                android.R.layout.simple_list_item_1,
+//                android.R.id.text1, values);
+
+        MyCustomAdapter adapter = new MyCustomAdapter(values, this);
 
         // Assign adapter to ListView
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
+            public void onItemClick(AdapterView<?>adapter,View v, int position, long id){
+                Object item = adapter.getItemAtPosition(position);
+
                 Intent intent = new Intent(GestureListActivity.this, GestureSetting.class);
-//                String message = values[position];
-//                intent.putExtra("gesture_name", message);
+                //based on item add info to intent
                 startActivity(intent);
             }
         });
+
+
+
+
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position,
+//                                    long id) {
+//                Log.i("list view listern","Yes");
+//                Intent intent = new Intent(GestureListActivity.this, GestureSetting.class);
+//                startActivity(intent);
+//            }
+//        });
+
     }
 
 

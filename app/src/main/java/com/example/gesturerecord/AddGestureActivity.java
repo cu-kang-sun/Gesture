@@ -24,6 +24,7 @@ import java.util.Queue;
 
 public class AddGestureActivity extends AppCompatActivity {
     private long delay = 0;
+    private boolean inProgress = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,14 @@ public class AddGestureActivity extends AppCompatActivity {
                 //If someone touches, reset our delay
                 delay = 0;
                 mProgressBar.setProgress(0);
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    mProgressBar.setVisibility(View.INVISIBLE);
+                    inProgress = true;
+                }else if(event.getAction() == MotionEvent.ACTION_UP){
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    inProgress = false;
+                }
+
                 return false;
             }
         });
@@ -64,17 +73,22 @@ public class AddGestureActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        //Incement the delay
-                        delay += 1000;
-                        mProgressBar.setProgress((int)delay/1000*100/(3000/1000));
-                        //If our delay in MS is over 10,000
-                        if (delay > 2000) {
-                            Bitmap bm = getScreenShot();
-                            List<Point> list = fl.getPoints();
+                        if(inProgress == false){
+                            //Incement the delay
+                            delay += 1000;
+                            mProgressBar.setProgress((int)delay/1000*100/(3000/1000));
+                            //If our delay in MS is over 10,000
+                            if (delay > 2000) {
+                                Bitmap bm = getScreenShot();
+                                List<Point> list = fl.getPoints();
 
-                            saveGesture(list, bm);
-                            return;
+                                saveGesture(list, bm);
+                                return;
+                            }
                         }
+
+
+
                     }
 
 

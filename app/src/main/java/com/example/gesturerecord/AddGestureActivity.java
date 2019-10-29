@@ -3,6 +3,7 @@ package com.example.gesturerecord;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -11,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,6 +34,13 @@ public class AddGestureActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_add_gesture);
 
+
+        final ProgressBar mProgressBar;
+        final CountDownTimer mCountDownTimer;
+
+        mProgressBar=(ProgressBar)findViewById(R.id.progressbar);
+        mProgressBar.setProgress(0);
+
         //Check for touches on our main layout
         final FingerLine fl = (FingerLine) findViewById(R.id.finger_line);
         fl.setOnTouchListener(new View.OnTouchListener() {
@@ -39,9 +48,11 @@ public class AddGestureActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 //If someone touches, reset our delay
                 delay = 0;
+                mProgressBar.setProgress(0);
                 return false;
             }
         });
+
 
         //Start a thread that will keep count of the time
         new Thread("Listen for touch thread") {
@@ -55,7 +66,7 @@ public class AddGestureActivity extends AppCompatActivity {
 
                         //Incement the delay
                         delay += 1000;
-
+                        mProgressBar.setProgress((int)delay/1000*100/(3000/1000));
                         //If our delay in MS is over 10,000
                         if (delay > 2000) {
                             Bitmap bm = getScreenShot();

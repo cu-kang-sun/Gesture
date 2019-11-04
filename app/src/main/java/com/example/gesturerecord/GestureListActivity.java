@@ -36,16 +36,12 @@ public class GestureListActivity extends AppCompatActivity{
         });
 
 
-//        final String[] values = new String[] { "Next Page", "Previous Page","Center"};
         List<String> values = new ArrayList<>();
         values.add("Next Page");
         values.add("Previous Page");
         values.add("Center");
 
 
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-//                android.R.layout.simple_list_item_1,
-//                android.R.id.text1, values);
 
         MyCustomAdapter adapter = new MyCustomAdapter(values, this);
 
@@ -63,18 +59,6 @@ public class GestureListActivity extends AppCompatActivity{
             }
         });
 
-
-
-
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position,
-//                                    long id) {
-//                Log.i("list view listern","Yes");
-//                Intent intent = new Intent(GestureListActivity.this, GestureSetting.class);
-//                startActivity(intent);
-//            }
-//        });
 
     }
 

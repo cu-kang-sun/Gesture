@@ -7,10 +7,11 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.ListView;
 
 public class GestureSetting extends AppCompatActivity {
     private Dialog viewGestureDialog;
@@ -19,7 +20,7 @@ public class GestureSetting extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_draw_gesture);
+        setContentView(R.layout.activity_gesture_setting);
 
         viewGestureDialog = new Dialog(this, DialogFragment.STYLE_NO_FRAME);
         viewGestureDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -30,6 +31,13 @@ public class GestureSetting extends AppCompatActivity {
 
 
 
+        ImageView listView = (ImageView) findViewById(R.id.gesture_img_display);
+        listView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewGestureDialog.show();
+            }
+        });
 
 
 //        Bundle bundle = getIntent().getExtras();
@@ -37,11 +45,13 @@ public class GestureSetting extends AppCompatActivity {
 //        String pointlist = (String) bundle.get("gesture_points");
 
 
+
+
     }
 
 
     public void viewGesture(View view){
-        viewGestureDialog.show();
+
     }
 
     public void stopViewGesture(View view){
@@ -49,16 +59,18 @@ public class GestureSetting extends AppCompatActivity {
     }
 
 
+
     public void editGesture(View view){
         Intent intent = new Intent(this, AddGestureActivity.class);
         startActivity(intent);
     }
 
+
+
     public void saveGesture(View view){
 
 
     }
-
 
 
 

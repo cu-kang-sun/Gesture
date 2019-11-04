@@ -31,7 +31,8 @@ public class FingerLine extends View {
     }
 
     @Override protected void onDraw(Canvas canvas) {
-//        paint.setColor(Color.WHITE);
+        paint.setColor(Color.WHITE);
+
 
         Path path = new Path();
         if (points.size() > 1) {
@@ -58,20 +59,20 @@ public class FingerLine extends View {
 
         canvas.drawPath(path, paint);
 
-//        paint.setColor(Color.RED);
-//
-//        Path straigtPath = new Path();
-//        boolean first = true;
-//        for(Point point : points){
-//            if(first){
-//                first = false;
-//                straigtPath.moveTo(point.x, point.y);
-//            }
-//            else{
-//                straigtPath.lineTo(point.x, point.y);
-//            }
-//        }
-//        canvas.drawPath(straigtPath, paint);
+        paint.setColor(Color.RED);
+
+        Path straigtPath = new Path();
+        boolean first = true;
+        for(Point point : points){
+            if(first){
+                first = false;
+                straigtPath.moveTo(point.x, point.y);
+            }
+            else{
+                straigtPath.lineTo(point.x, point.y);
+            }
+        }
+        canvas.drawPath(straigtPath, paint);
 
     }
 

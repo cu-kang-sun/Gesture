@@ -60,6 +60,12 @@ public class GestureListActivity extends AppCompatActivity{
         });
 
 
+<<<<<<< HEAD
+
+
+
+=======
+>>>>>>> 09d3e32611cfaf8139829bb941e5e29bc811cb12
     }
 
 

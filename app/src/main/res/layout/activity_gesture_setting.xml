@@ -50,7 +50,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="viewGesture"
-            android:text="View" />
+            android:text="Edit
+
+" />
 
         <Button
             android:id="@+id/edit_gesture"
@@ -58,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="editGesture"
-            android:text="Edit" />
+            android:text="ResetImg" />
 
         <Button
         android:id="@+id/draw_gesture_save"
@@ -66,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:onClick="saveGesture"
-        android:text="Save" />
+        android:text="UploadImg" />
 
         <Button
             android:id="@+id/draw_gesture_clear"
@@ -74,8 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="deleteGesture"
-            android:textColor="#ff0000"
-            android:text="Delete" />
+            android:text="Save" />
 
     </LinearLayout>
 

@@ -17,7 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:onClick="drawGesture"
-        android:text="@string/add_gesture" />
+        android:text="@string/add_gesture"
+        />
 
 
 </LinearLayout>

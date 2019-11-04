@@ -37,7 +37,6 @@ public class AddGestureActivity extends AppCompatActivity {
 
 
         final ProgressBar mProgressBar;
-        final CountDownTimer mCountDownTimer;
 
         mProgressBar=(ProgressBar)findViewById(R.id.progressbar);
         mProgressBar.setProgress(0);

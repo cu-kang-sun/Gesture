@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 
 //We need one table now(id: gesture_name)
@@ -66,9 +67,18 @@ public class GestureDataDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues cv = new  ContentValues();
         cv.put(COLUMN_NAME_GESTURE_NAME,   data.getName());
-        cv.put(COLUMN_NAME_GESTURE_POINTS,   data.getPoints());
-        cv.put(COLUMN_NAME_GESTURE_IMAGE, DbBitmapUtility.getBytes(data.getImage()));
+        if(data.getPoints() == null){
+            cv.put(COLUMN_NAME_GESTURE_POINTS,   "NULL");
+        }else
+            cv.put(COLUMN_NAME_GESTURE_POINTS,   data.getPoints());
+
+        if(data.getImage() == null){
+            cv.put(COLUMN_NAME_GESTURE_IMAGE, "NULL");
+        }else
+            cv.put(COLUMN_NAME_GESTURE_IMAGE, DbBitmapUtility.getBytes(data.getImage()));
+
         database.insert(TABLE_NAME, null, cv );
+
     }
 
 
@@ -76,12 +86,17 @@ public class GestureDataDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues cv = new  ContentValues();
         cv.put(COLUMN_NAME_GESTURE_NAME,   data.getName());
-        cv.put(COLUMN_NAME_GESTURE_POINTS,   data.getPoints());
-        cv.put(COLUMN_NAME_GESTURE_IMAGE, DbBitmapUtility.getBytes(data.getImage()));
+        if(data.getPoints() == null){
+            cv.put(COLUMN_NAME_GESTURE_POINTS,   "NULL");
+        }else
+            cv.put(COLUMN_NAME_GESTURE_POINTS,   data.getPoints());
 
-        //update according to where
-//        database.update(TABLE_NAME, cv, null, null );
+        if(data.getImage() == null){
+            cv.put(COLUMN_NAME_GESTURE_IMAGE, "NULL");
+        }else
+            cv.put(COLUMN_NAME_GESTURE_IMAGE, DbBitmapUtility.getBytes(data.getImage()));
 
+        database.update(TABLE_NAME, cv,"name = '" + name+"'", null);
     }
 
 
@@ -89,12 +104,20 @@ public class GestureDataDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getReadableDatabase();
 
         Cursor cursor = database.query(TABLE_NAME, new String[] {COLUMN_NAME_GESTURE_POINTS, COLUMN_NAME_GESTURE_IMAGE},
-                "name = " + name, null, null, null, null);
-
+                "name = '" + name+"'", null, null, null, null);
+        cursor.moveToFirst();
         String points = cursor.getString(0);
         byte[] images = cursor.getBlob(1);
         GestureData res = new GestureData(name, points, DbBitmapUtility.getImage(images));
         return res;
+    }
+
+    public int deleteGesture(String name) throws SQLiteException {
+        SQLiteDatabase database = this.getWritableDatabase();
+        Log.i("db","gesture with name "+name+" is deleted");
+        int lines = database.delete(TABLE_NAME, "name = '" + name+"'", null);
+
+        return lines;
     }
 
 

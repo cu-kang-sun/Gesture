@@ -10,16 +10,24 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.gesturerecord.Database.GestureData;
+import com.example.gesturerecord.Database.GestureDataDbHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class GestureListActivity extends AppCompatActivity{
 
+    GestureDataDbHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gesture_list);
+
+        db = new GestureDataDbHelper(this);
+
 
         ListView listView = (ListView) findViewById(R.id.list);
 
@@ -58,6 +66,7 @@ public class GestureListActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
 
 
     }

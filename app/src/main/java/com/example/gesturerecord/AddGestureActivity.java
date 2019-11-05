@@ -80,20 +80,13 @@ public class AddGestureActivity extends AppCompatActivity {
                             if (delay > 2000) {
                                 Bitmap bm = getScreenShot();
                                 List<Point> list = fl.getPoints();
-
                                 saveGesture(list, bm);
                                 return;
                             }
                         }
-
-
-
                     }
-
-
                 }
             }.start();
-
     }
 
 

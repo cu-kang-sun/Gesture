@@ -50,9 +50,7 @@ public class GestureSetting extends AppCompatActivity {
     }
 
 
-    public void viewGesture(View view){
 
-    }
 
     public void stopViewGesture(View view){
         viewGestureDialog.dismiss();
@@ -73,10 +71,15 @@ public class GestureSetting extends AppCompatActivity {
     }
 
 
-
-    public void deleteGesture(View view){
+    public void uploadBackgroundImg(View view){
 
     }
+
+    public void resetBackGroundImg(View view){
+
+    }
+
+
 
 
 }

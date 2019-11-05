@@ -53,26 +53,12 @@ public class FingerLine extends View {
                     }
                 }
                 prevPoint = point;
+
             }
             path.lineTo(prevPoint.x, prevPoint.y);
         }
 
         canvas.drawPath(path, paint);
-
-        paint.setColor(Color.RED);
-
-        Path straigtPath = new Path();
-        boolean first = true;
-        for(Point point : points){
-            if(first){
-                first = false;
-                straigtPath.moveTo(point.x, point.y);
-            }
-            else{
-                straigtPath.lineTo(point.x, point.y);
-            }
-        }
-        canvas.drawPath(straigtPath, paint);
 
     }
 

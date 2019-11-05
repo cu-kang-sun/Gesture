@@ -45,37 +45,33 @@
         android:layout_weight="0"
         android:background="@color/semi_black">
         <Button
-            android:id="@+id/view_gesture"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="viewGesture"
+            android:onClick="editGesture"
             android:text="Edit
 
 " />
 
         <Button
-            android:id="@+id/edit_gesture"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="editGesture"
+            android:onClick="resetBackGroundImg7u7"
             android:text="ResetImg" />
 
         <Button
-        android:id="@+id/draw_gesture_save"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:onClick="saveGesture"
+        android:onClick="uploadBackgroundImg"
         android:text="UploadImg" />
 
         <Button
-            android:id="@+id/draw_gesture_clear"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="deleteGesture"
+            android:onClick="saveGesture"
             android:text="Save" />
 
     </LinearLayout>

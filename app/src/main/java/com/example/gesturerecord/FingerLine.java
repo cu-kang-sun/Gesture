@@ -15,6 +15,7 @@ import java.util.List;
 public class FingerLine extends View {
     private final Paint paint;
     public List<Point> points;
+    private boolean paintingMode;
 
 
     public FingerLine(Context context) {
@@ -23,6 +24,7 @@ public class FingerLine extends View {
 
     public FingerLine(Context context, AttributeSet attrs) {
         super(context, attrs);
+        paintingMode = true;
         points = new ArrayList<Point>();
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Style.STROKE);
@@ -31,6 +33,8 @@ public class FingerLine extends View {
     }
 
     @Override protected void onDraw(Canvas canvas) {
+        if(paintingMode == false)
+            return;
         paint.setColor(Color.WHITE);
 
 
@@ -64,6 +68,9 @@ public class FingerLine extends View {
 
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
+        if(paintingMode == false)
+            return false;
+
         if(event.getAction() != MotionEvent.ACTION_UP){
             if(event.getAction() == MotionEvent.ACTION_DOWN){
                 points = new ArrayList<>();
@@ -77,6 +84,7 @@ public class FingerLine extends View {
         }
         return super.onTouchEvent(event);
     }
+
 
 
 

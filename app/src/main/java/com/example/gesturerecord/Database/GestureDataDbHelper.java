@@ -8,6 +8,11 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.gesturerecord.GestureSetting;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 //We need one table now(id: gesture_name)
 //column: gesture_name, points, picture_name
@@ -109,6 +114,7 @@ public class GestureDataDbHelper extends SQLiteOpenHelper {
         String points = cursor.getString(0);
         byte[] images = cursor.getBlob(1);
         GestureData res = new GestureData(name, points, DbBitmapUtility.getImage(images));
+        cursor.close();
         return res;
     }
 
@@ -120,5 +126,35 @@ public class GestureDataDbHelper extends SQLiteOpenHelper {
         return lines;
     }
 
+
+    public List<String> getAllGestureNames() throws SQLiteException {
+        SQLiteDatabase database = this.getReadableDatabase();
+        List<String> result = new ArrayList<String>();
+
+        Cursor cursor = database.query(TABLE_NAME, new String[] {COLUMN_NAME_GESTURE_NAME},
+                null, null, null, null, null);
+
+        if (cursor.moveToFirst()){
+            do{
+                String data = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_GESTURE_NAME));
+                result.add(data);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    public boolean isExist(String name) throws SQLiteException {
+        SQLiteDatabase database = this.getReadableDatabase();
+
+        Cursor cursor = database.query(TABLE_NAME, new String[] {COLUMN_NAME_GESTURE_POINTS, COLUMN_NAME_GESTURE_IMAGE},
+                "name = '" + name+"'", null, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+
+        if(count == 0)
+            return false;
+        return true;
+    }
 
 }

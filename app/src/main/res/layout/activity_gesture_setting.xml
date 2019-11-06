@@ -12,6 +12,7 @@
         android:orientation="vertical"
         android:layout_weight="1">
             <EditText
+                android:id="@+id/gesture_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
@@ -27,10 +28,10 @@
             android:layout_weight="1"
             android:gravity="center">
             <ImageView
-                android:id="@+id/gesture_img_display"
+                android:id="@+id/gesture_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/book_sample"
+
                 />
         </LinearLayout>
 

@@ -14,18 +14,21 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.example.gesturerecord.Database.GestureDataDbHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
     private List<String> list = new ArrayList<String>();
     private Context context;
-
+    private GestureDataDbHelper db;
 
 
     public MyCustomAdapter(List<String> list, Context context) {
         this.list = list;
         this.context = context;
+        db = new GestureDataDbHelper(context);
     }
 
     @Override
@@ -80,6 +83,12 @@ public class MyCustomAdapter extends BaseAdapter implements ListAdapter {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Continue with delete operation
+                                String gestureName = list.get(position);
+                                try {
+                                    db.deleteGesture(gestureName);
+                                } catch (Exception e) {
+                                    Log.d("db","fail to delete gesture:"+gestureName);
+                                }
 
                                 list.remove(position); //or some other task
                                 notifyDataSetChanged();

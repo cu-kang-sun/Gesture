@@ -2,6 +2,7 @@ package com.example.gesturerecord;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
@@ -16,33 +17,61 @@ import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.gesturerecord.Database.GestureData;
+import com.example.gesturerecord.Database.GestureDataDbHelper;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+
 public class AddGestureActivity extends AppCompatActivity {
+
+
     private long delay = 0;
     private boolean inProgress = false;
+
+    private ProgressBar mProgressBar;
+    private FingerLine fl;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        //hide top bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
+        //hide bottom bar
+        if(Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if(Build.VERSION.SDK_INT >= 19) {
+            //for new api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
+
 
         setContentView(R.layout.activity_add_gesture);
 
 
-        final ProgressBar mProgressBar;
+
+
 
         mProgressBar=(ProgressBar)findViewById(R.id.progressbar);
         mProgressBar.setProgress(0);
 
         //Check for touches on our main layout
-        final FingerLine fl = (FingerLine) findViewById(R.id.finger_line);
+        fl = (FingerLine) findViewById(R.id.finger_line);
         fl.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -80,7 +109,7 @@ public class AddGestureActivity extends AppCompatActivity {
                             if (delay > 2000) {
                                 Bitmap bm = getScreenShot();
                                 List<Point> list = fl.getPoints();
-                                saveGesture(list, bm);
+                                saveCurrentGesture(list, bm);
                                 return;
                             }
                         }
@@ -90,14 +119,17 @@ public class AddGestureActivity extends AppCompatActivity {
     }
 
 
-    private void saveGesture(List<Point> points, Bitmap bm){
+    private void saveCurrentGesture(List<Point> points, Bitmap bm){
         //pass the points back
 
+
         Intent intent = new Intent(this, GestureSetting.class);
-//        intent.putExtra("gesture_points", convertPointlistToStr(points));
-//        intent.putExtra("gesture_pic", bm);
-//        intent.putExtra("source","AddGesture");
+
+        intent.putExtra("source","AddGesture");
+        GestureSetting.currentImage = bm;
+        intent.putExtra("points", convertPointlistToStr(points));
         startActivity(intent);
+
     }
 
     private String convertPointlistToStr(List<Point> points){
@@ -121,7 +153,8 @@ public class AddGestureActivity extends AppCompatActivity {
     }
 
 
-    private static Bitmap getScreenShot(View view) {
+    private Bitmap getScreenShot(View view) {
+        stopCounting();
         View screenView = view.getRootView();
         screenView.setDrawingCacheEnabled(true);
         Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
@@ -129,26 +162,16 @@ public class AddGestureActivity extends AppCompatActivity {
         return bitmap;
     }
 
-    private static void store(Bitmap bm, String fileName){
-        String dirPath = "res/drawable";
-        File dir = new File(dirPath);
-        if(!dir.exists())
-            dir.mkdirs();
-        File file = new File(dirPath, fileName);
-        try {
-            FileOutputStream fOut = new FileOutputStream(file);
-            bm.compress(Bitmap.CompressFormat.PNG, 85, fOut);
-            fOut.flush();
-            fOut.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 
     private Bitmap getScreenShot(){
         View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
         Bitmap bm = getScreenShot(rootView);
         return bm;
+    }
+
+    private void stopCounting(){
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
 }

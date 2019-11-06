@@ -19,7 +19,7 @@ import java.util.List;
 
 public class GestureListActivity extends AppCompatActivity{
 
-    GestureDataDbHelper db;
+    private GestureDataDbHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,6 @@ public class GestureListActivity extends AppCompatActivity{
         setContentView(R.layout.activity_gesture_list);
 
         db = new GestureDataDbHelper(this);
-
 
         ListView listView = (ListView) findViewById(R.id.list);
 
@@ -43,13 +42,7 @@ public class GestureListActivity extends AppCompatActivity{
             }
         });
 
-
-        List<String> values = new ArrayList<>();
-        values.add("Next Page");
-        values.add("Previous Page");
-        values.add("Center");
-
-
+        final List<String> values = db.getAllGestureNames();
 
         MyCustomAdapter adapter = new MyCustomAdapter(values, this);
 
@@ -59,15 +52,19 @@ public class GestureListActivity extends AppCompatActivity{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?>adapter,View v, int position, long id){
-                Object item = adapter.getItemAtPosition(position);
+                String gestureName = values.get(position);
 
                 Intent intent = new Intent(GestureListActivity.this, GestureSetting.class);
                 //based on item add info to intent
+                intent.putExtra("source","GestureList");
+                intent.putExtra("gesture_name", gestureName);
                 startActivity(intent);
+
             }
         });
 
-
+        //initialize other static parameters
+        GestureSetting.currentImage = null;
 
     }
 

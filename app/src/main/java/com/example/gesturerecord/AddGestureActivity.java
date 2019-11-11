@@ -39,13 +39,14 @@ public class AddGestureActivity extends AppCompatActivity {
 
     private ProgressBar mProgressBar;
     private FingerLine fl;
+    private String gestureName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        gestureName = null;
 
 
 
@@ -99,9 +100,9 @@ public class AddGestureActivity extends AppCompatActivity {
         String source = extras.getString("source");
 
         if(source.equals("GestureSetting")){
-            Log.i("add gesture source","gesture_setting");
             String points = extras.getString("points");
             fl.points = convertStrToPointlist(points);
+            gestureName = extras.getString("name");
         }
 
 
@@ -142,6 +143,9 @@ public class AddGestureActivity extends AppCompatActivity {
         intent.putExtra("source","AddGesture");
         GestureSetting.currentImage = bm;
         intent.putExtra("points", convertPointlistToStr(points));
+        if(gestureName != null){
+            intent.putExtra("name", gestureName);
+        }
         startActivity(intent);
 
     }

@@ -89,6 +89,7 @@ public class GestureDataDbHelper extends SQLiteOpenHelper {
 
     public void updateGesture(GestureData data, String name) throws SQLiteException {
         SQLiteDatabase database = this.getWritableDatabase();
+
         ContentValues cv = new  ContentValues();
         cv.put(COLUMN_NAME_GESTURE_NAME,   data.getName());
         if(data.getPoints() == null){

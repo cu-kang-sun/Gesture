@@ -54,7 +54,10 @@ public class GestureSetting extends AppCompatActivity {
 
         }else if(source.equals("AddGesture")){
             currentPoints = extras.getString("points");
-            currentName = "default_name";
+            if(extras.containsKey("name")){
+                currentName = extras.getString("name");
+            }else
+                currentName = "default_name";
 
         }
 
@@ -115,6 +118,7 @@ public class GestureSetting extends AppCompatActivity {
         intent.putExtra("source","GestureSetting");
         //pass the points
         intent.putExtra("points",currentPoints);
+        intent.putExtra("name",currentName);
         startActivity(intent);
     }
 
@@ -133,21 +137,35 @@ public class GestureSetting extends AppCompatActivity {
             //if it exists, show alertDialog, let user change the gesture name
             new AlertDialog.Builder(this)
                     .setTitle("This name is already taken")
-                    .setMessage("Please use another name and try again.")
+                    .setMessage("Do you want to overwrite this existing gesture?")
                     // A null listener allows the button to dismiss the dialog and take no further action.
-                    .setPositiveButton(android.R.string.no, null)
+                    .setPositiveButton("Yes",  new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO Auto-generated method stub
+                            //if it does not exist, save the gesture to database and redirect user to the gesture list page
+                            GestureData newGesture = new GestureData(currentName, currentPoints, currentImage);
+                            db.updateGesture(newGesture, currentName);
+                            jumpToListPage();
+                        }
+                    })
+                    .setNegativeButton("No", null)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         }else{
             //if it does not exist, save the gesture to database and redirect user to the gesture list page
             GestureData newGesture = new GestureData(currentName, currentPoints, currentImage);
             db.addGesture(newGesture);
+            jumpToListPage();
 
-            //redirect to gesture list page
-            Intent intent = new Intent(this, GestureListActivity.class);
-            startActivity(intent);
         }
 
+    }
+
+    public void jumpToListPage(){
+        //redirect to gesture list page
+        Intent intent = new Intent(this, GestureListActivity.class);
+        startActivity(intent);
     }
 
     public void uploadBackgroundImg(View view){

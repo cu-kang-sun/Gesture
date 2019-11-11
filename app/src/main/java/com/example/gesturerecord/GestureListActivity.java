@@ -64,7 +64,7 @@ public class GestureListActivity extends AppCompatActivity{
         });
 
         //initialize other static parameters
-        GestureSetting.currentImage = null;
+        GestureSetting.setScreenShotImage(null);
 
     }
 

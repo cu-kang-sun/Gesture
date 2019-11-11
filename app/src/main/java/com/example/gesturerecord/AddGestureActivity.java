@@ -40,6 +40,7 @@ public class AddGestureActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private FingerLine fl;
     private String gestureName;
+    private static Bitmap backgroundPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class AddGestureActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         gestureName = null;
 
-
+        backgroundPic = null;
 
         //hide top bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -131,23 +132,21 @@ public class AddGestureActivity extends AppCompatActivity {
                     }
                 }
             }.start();
+
+
     }
 
 
     private void saveCurrentGesture(List<Point> points, Bitmap bm){
         //pass the points back
-
-
         Intent intent = new Intent(this, GestureSetting.class);
-
         intent.putExtra("source","AddGesture");
-        GestureSetting.currentImage = bm;
+        GestureSetting.setScreenShotImage(bm);
         intent.putExtra("points", convertPointlistToStr(points));
         if(gestureName != null){
             intent.putExtra("name", gestureName);
         }
         startActivity(intent);
-
     }
 
 
@@ -192,7 +191,7 @@ public class AddGestureActivity extends AppCompatActivity {
 
 
     private Bitmap getScreenShot(View view) {
-        stopCounting();
+        mProgressBar.setVisibility(View.INVISIBLE);
         View screenView = view.getRootView();
         screenView.setDrawingCacheEnabled(true);
         Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
@@ -208,8 +207,9 @@ public class AddGestureActivity extends AppCompatActivity {
         return bm;
     }
 
-    private void stopCounting(){
-        mProgressBar.setVisibility(View.INVISIBLE);
+
+    public static void setBackgroundPic(Bitmap bm){
+        backgroundPic = bm;
     }
 
 }

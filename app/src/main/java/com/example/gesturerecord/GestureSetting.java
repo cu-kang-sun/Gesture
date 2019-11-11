@@ -30,7 +30,9 @@ public class GestureSetting extends AppCompatActivity {
 
     String currentPoints;
     String currentName;
-    public static Bitmap currentImage;
+    private static Bitmap currentImage;
+
+    private static final int GET_FROM_GALLERY = 3;
 
 
     @Override
@@ -169,7 +171,7 @@ public class GestureSetting extends AppCompatActivity {
     }
 
     public void uploadBackgroundImg(View view){
-
+        startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
     }
 
     public void resetBackGroundImg(View view){
@@ -177,6 +179,9 @@ public class GestureSetting extends AppCompatActivity {
     }
 
 
+    public static void setScreenShotImage(Bitmap bm){
+        currentImage = bm;
+    }
 
 
 }

@@ -20,8 +20,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.gesturerecord.Database.GestureData;
 import com.example.gesturerecord.Database.GestureDataDbHelper;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -29,20 +34,20 @@ import java.util.Queue;
 
 public class AddGestureActivity extends AppCompatActivity {
 
-
     private long delay = 0;
     private boolean inProgress = false;
 
     private ProgressBar mProgressBar;
     private FingerLine fl;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+
+
 
         //hide top bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -90,6 +95,15 @@ public class AddGestureActivity extends AppCompatActivity {
             }
         });
 
+        Bundle extras = getIntent().getExtras();
+        String source = extras.getString("source");
+
+        if(source.equals("GestureSetting")){
+            Log.i("add gesture source","gesture_setting");
+            String points = extras.getString("points");
+            fl.points = convertStrToPointlist(points);
+        }
+
 
         //Start a thread that will keep count of the time
         new Thread("Listen for touch thread") {
@@ -132,23 +146,43 @@ public class AddGestureActivity extends AppCompatActivity {
 
     }
 
-    private String convertPointlistToStr(List<Point> points){
-        //x,y
-        //connect (x,y) with ":"
-        //so like (1,2):(2,3):(3,4)
-        Queue<String> queue = new LinkedList<>();
-        String str = "";
-        for(int i=0;i<points.size();i++){
-            queue.add("("+String.valueOf(points.get(i).x) + "," + String.valueOf(points.get(i).y)+")");
+
+    private List<Point> convertStrToPointlist(String str){
+        //convert json array string to list of points
+        List<Point> list = new ArrayList<Point>();
+        try {
+            JSONArray jsonArray = new JSONArray(str);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject explrObject = jsonArray.getJSONObject(i);
+                list.add(new Point(Float.valueOf(String.valueOf(explrObject.get("x"))),Float.valueOf(String.valueOf(explrObject.get("y")))) );
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        while(!queue.isEmpty()){
-            str = ":" + queue.poll() + str;
+        Log.i("json",String.valueOf(list.size()) );
+
+        return list;
+    }
+
+
+    private String convertPointlistToStr(List<Point> points)  {
+
+        //convert list of points to json array string
+        JSONArray jsonArray = new JSONArray();
+        try {
+            for (Point p : points) {
+                JSONObject pointJson = new JSONObject();
+                pointJson.put("x", String.valueOf(p.x));
+                pointJson.put("y", String.valueOf(p.y));
+                jsonArray.put(pointJson);
+            }
+
+        }catch(JSONException e){
+            Log.d("json", "fail to convert point list to str");
+            return null;
         }
-        if(str.length() > 1){
-            str = str.substring(1, str.length());
-        }
-        return str;
+        return jsonArray.toString();
 
     }
 

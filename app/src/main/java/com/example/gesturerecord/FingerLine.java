@@ -75,9 +75,7 @@ public class FingerLine extends View {
             if(event.getAction() == MotionEvent.ACTION_DOWN){
                 points = new ArrayList<>();
             }
-            Point point = new Point();
-            point.x = event.getX();
-            point.y = event.getY();
+            Point point = new Point(event.getX(), event.getY());
             points.add(point);
             invalidate();
             return true;

@@ -112,6 +112,9 @@ public class GestureSetting extends AppCompatActivity {
 
     public void editGesture(View view){
         Intent intent = new Intent(this, AddGestureActivity.class);
+        intent.putExtra("source","GestureSetting");
+        //pass the points
+        intent.putExtra("points",currentPoints);
         startActivity(intent);
     }
 

@@ -19,7 +19,7 @@ import java.util.List;
 //we use android built-in sqlite db service to do that
 public class GestureDataDbHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "GestureReader.db";
 
 
@@ -34,12 +34,16 @@ public class GestureDataDbHelper extends SQLiteOpenHelper {
     //bitmap data of the image
     public static final String COLUMN_NAME_GESTURE_IMAGE = "image";
 
+    //bitmap data of the background
+    public static final String COLUMN_NAME_GESTURE_BACKGROUND = "background";
+
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + TABLE_NAME + " (" +
                     COLUMN_NAME_GESTURE_NAME + " TEXT PRIMARY KEY," +
                     COLUMN_NAME_GESTURE_POINTS + " TEXT," +
-                    COLUMN_NAME_GESTURE_IMAGE + " BLOB)";
+                    COLUMN_NAME_GESTURE_IMAGE + " BLOB," +
+                    COLUMN_NAME_GESTURE_BACKGROUND + " BLOB" + ")";
 
 
     private static final String SQL_DELETE_ENTRIES =
@@ -82,6 +86,15 @@ public class GestureDataDbHelper extends SQLiteOpenHelper {
         }else
             cv.put(COLUMN_NAME_GESTURE_IMAGE, DbBitmapUtility.getBytes(data.getImage()));
 
+        if(data.getBackground() == null){
+            cv.put(COLUMN_NAME_GESTURE_BACKGROUND, "NULL");
+            Log.i("db", "background is null");
+        }else{
+            cv.put(COLUMN_NAME_GESTURE_BACKGROUND, DbBitmapUtility.getBytes(data.getBackground()));
+            Log.i("db", "deal with the gesture background");
+        }
+
+
         database.insert(TABLE_NAME, null, cv );
 
     }
@@ -102,6 +115,15 @@ public class GestureDataDbHelper extends SQLiteOpenHelper {
         }else
             cv.put(COLUMN_NAME_GESTURE_IMAGE, DbBitmapUtility.getBytes(data.getImage()));
 
+        if(data.getBackground() == null){
+            cv.put(COLUMN_NAME_GESTURE_BACKGROUND, "NULL");
+            Log.i("db", "background is null");
+        }else{
+            cv.put(COLUMN_NAME_GESTURE_BACKGROUND, DbBitmapUtility.getBytes(data.getBackground()));
+            Log.i("db", "deal with the gesture background");
+        }
+
+
         database.update(TABLE_NAME, cv,"name = '" + name+"'", null);
     }
 
@@ -109,12 +131,13 @@ public class GestureDataDbHelper extends SQLiteOpenHelper {
     public GestureData getGesture(String name) throws SQLiteException {
         SQLiteDatabase database = this.getReadableDatabase();
 
-        Cursor cursor = database.query(TABLE_NAME, new String[] {COLUMN_NAME_GESTURE_POINTS, COLUMN_NAME_GESTURE_IMAGE},
+        Cursor cursor = database.query(TABLE_NAME, new String[] {COLUMN_NAME_GESTURE_POINTS, COLUMN_NAME_GESTURE_IMAGE, COLUMN_NAME_GESTURE_BACKGROUND},
                 "name = '" + name+"'", null, null, null, null);
         cursor.moveToFirst();
         String points = cursor.getString(0);
         byte[] images = cursor.getBlob(1);
-        GestureData res = new GestureData(name, points, DbBitmapUtility.getImage(images));
+        byte[] background_images = cursor.getBlob(2);
+        GestureData res = new GestureData(name, points, DbBitmapUtility.getImage(images), DbBitmapUtility.getImage(background_images));
         cursor.close();
         return res;
     }
@@ -148,7 +171,7 @@ public class GestureDataDbHelper extends SQLiteOpenHelper {
     public boolean isExist(String name) throws SQLiteException {
         SQLiteDatabase database = this.getReadableDatabase();
 
-        Cursor cursor = database.query(TABLE_NAME, new String[] {COLUMN_NAME_GESTURE_POINTS, COLUMN_NAME_GESTURE_IMAGE},
+        Cursor cursor = database.query(TABLE_NAME, new String[] {COLUMN_NAME_GESTURE_POINTS},
                 "name = '" + name+"'", null, null, null, null);
         int count = cursor.getCount();
         cursor.close();

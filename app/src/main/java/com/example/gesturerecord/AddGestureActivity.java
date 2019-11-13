@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
@@ -45,11 +46,9 @@ public class AddGestureActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         gestureName = null;
 
-        backgroundPic = null;
 
         //hide top bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -106,6 +105,11 @@ public class AddGestureActivity extends AppCompatActivity {
             gestureName = extras.getString("name");
         }
 
+        if(backgroundPic != null){
+            ImageView image = (ImageView) findViewById(R.id.background_pic);
+            image.setImageBitmap(backgroundPic);
+        }
+
 
         //Start a thread that will keep count of the time
         new Thread("Listen for touch thread") {
@@ -123,9 +127,10 @@ public class AddGestureActivity extends AppCompatActivity {
                             mProgressBar.setProgress((int)delay/1000*100/(3000/1000));
                             //If our delay in MS is over 10,000
                             if (delay > 2000) {
-                                Bitmap bm = getScreenShot();
+                                Bitmap screenShot = getScreenShot();
                                 List<Point> list = fl.getPoints();
-                                saveCurrentGesture(list, bm);
+                                saveCurrentGesture(list, screenShot, backgroundPic);
+                                backgroundPic = null;
                                 return;
                             }
                         }
@@ -137,11 +142,12 @@ public class AddGestureActivity extends AppCompatActivity {
     }
 
 
-    private void saveCurrentGesture(List<Point> points, Bitmap bm){
+    private void saveCurrentGesture(List<Point> points, Bitmap screenshot, Bitmap backgroundPic){
         //pass the points back
         Intent intent = new Intent(this, GestureSetting.class);
         intent.putExtra("source","AddGesture");
-        GestureSetting.setScreenShotImage(bm);
+        GestureSetting.setScreenShotImage(screenshot);
+        GestureSetting.setBackgroundImage(backgroundPic);
         intent.putExtra("points", convertPointlistToStr(points));
         if(gestureName != null){
             intent.putExtra("name", gestureName);

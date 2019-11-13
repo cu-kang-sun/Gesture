@@ -8,11 +8,21 @@ public final class GestureData {
     private String name;
     private String points;
     private Bitmap image;
+    private Bitmap background;
 
-    public GestureData(String n, String p, Bitmap i){
+    public GestureData(String n, String p, Bitmap i, Bitmap b){
         this.name = n;
         this.points = p;
         this.image = i;
+        this.background = b;
+    }
+
+    public Bitmap getBackground() {
+        return background;
+    }
+
+    public void setBackground(Bitmap background) {
+        this.background = background;
     }
 
     public String getName() {

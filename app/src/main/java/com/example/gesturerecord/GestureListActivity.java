@@ -71,10 +71,13 @@ public class GestureListActivity extends AppCompatActivity{
 
     public void drawGesture(View view) {
         // Do something in response to button
+        AddGestureActivity.setBackgroundPic(null);
         Intent intent = new Intent(this, AddGestureActivity.class);
         intent.putExtra("source","GestureList");
         startActivity(intent);
     }
+
+
 
 
 }
